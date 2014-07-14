@@ -1,0 +1,20 @@
+#!/bin/bash
+
+readonly NUM_ARGS=3
+if [ $# -lt $NUM_ARGS ]; then
+    echo "Invalid numer of arguments: $#"
+    echo "Usage: <pix size x> <pix size y> [<files to render>...]"
+    exit 1
+fi
+pix_x=$1
+shift
+pix_y=$1
+shift
+counter=10
+while [ $# -gt 0 ]
+do
+    valgrind ./ray $pix_x $pix_y < "$1" > pictures/`basename $1 .txt`.ppm &
+    counter=`expr $counter + 1`
+    shift
+done
+
